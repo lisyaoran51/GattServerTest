@@ -105,7 +105,9 @@ int main() {
 	buildGattService(m_db);
 
 
+	/* GattClient::run */
 
+	mainloop_run();
 
 	return 0;
 }
