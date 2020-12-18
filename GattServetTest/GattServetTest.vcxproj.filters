@@ -23,5 +23,8 @@
     <ClInclude Include="Main.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="CommandToString.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

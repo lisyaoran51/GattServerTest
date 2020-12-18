@@ -1,51 +1,15 @@
-
-#include <iostream>
-
-#include <bluetooth/bluetooth.h>
-#include <bluetooth/l2cap.h>
-
-// these are pulled directly from the BlueZ source tree
-extern "C"
-{
-#include <lib/uuid.h>
-#include <src/shared/att.h>
-#include <src/shared/gatt-db.h>
-#include <src/shared/gatt-server.h>
-}
-
-extern "C"
-{
-#include <src/shared/mainloop.h>
-}
-
-// /defs.h
-#define UNUSED_PARAM(X) UNUSED_ ## X __attribute__((__unused__))
-
-using namespace std;
+#include "Main.h"
 
 // g++ Main.cpp -o test -I/home/pi/bleconfd/build/deps/src/bluez -lbluetooth /home/pi/bleconfd/build/deps/src/bluez/src/.libs/libshared-mainloop.a /home/pi/bleconfd/build/deps/src/bluez/lib/.libs/uuid.o
 
 
 
-void onClientDisconnected(int err, void* argp)
-{
-	// TODO: we should stash the remote client as a member of the
-	// GattClient so we can print out mac addres of client that
-	// just disconnected
-	cout << "disconnect";
-	mainloop_quit();
-}
 
-void onTimeout(int UNUSED_PARAM(fd), void* argp)
-{
-	cout << "timeout";
-}
+
 
 
 
 int main() {
-
-
 
 
 
@@ -130,6 +94,16 @@ int main() {
 	}
 
 	int m_timeout_id = mainloop_add_timeout(1000, &onTimeout, nullptr, nullptr);
+
+
+	/* GattClient::buildGattDatabase */
+
+	/* buildGapService */
+	buildGapService(m_db);
+
+	/* buildGattService */
+	buildGattService(m_db);
+
 
 
 
