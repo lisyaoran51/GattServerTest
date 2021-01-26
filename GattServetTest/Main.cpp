@@ -1,10 +1,10 @@
 #include "Main.h"
 
 // g++ Main.cpp -o test -I/home/pi/bleconfd/build/deps/src/bluez -lbluetooth /home/pi/bleconfd/build/deps/src/bluez/src/.libs/libshared-mainloop.a /home/pi/bleconfd/build/deps/src/bluez/lib/.libs/uuid.o
+// g++ beacon.cc -c -lbluetooth
+// g++ util.cc -c
 
-
-
-
+// g++ Main.cpp -o test -I/home/pi/bleconfd/build/deps/src/bluez -lbluetooth /home/pi/bleconfd/build/deps/src/bluez/src/.libs/libshared-mainloop.a /home/pi/bleconfd/build/deps/src/bluez/lib/.libs/uuid.o beacon.o util.o
 
 
 
@@ -44,7 +44,7 @@ int main() {
 	if (ret < 0)
 		cout << "failed to listen on bluetooth socket";
 
-	startBeacon("XPI-SETUP", 0)
+	startBeacon("XPI-SETUP", 0);
 
 	/* gatt server accept */
 
