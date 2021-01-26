@@ -109,7 +109,7 @@ void buildGapService(gatt_db* m_db)
 	bt_uuid16_create(&uuid, GATT_CHARAC_DEVICE_NAME);
 	gatt_db_service_add_characteristic(service, &uuid, BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
 		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_EXT_PROP,
-		&GattClient_onGapRead, &GattClient_onGapWrite, this);
+		&GattClient_onGapRead, &GattClient_onGapWrite, nullptr);
 		//nullptr, nullptr, nullptr);
 		//&GattClient_onGapRead, &GattClient_onGapWrite, this);
 
