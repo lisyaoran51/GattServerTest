@@ -160,33 +160,57 @@ void GattClient_onGapWrite(gatt_db_attribute* attr, uint32_t id, uint16_t offset
 
 	gatt_db_attribute_write_result(attr, id, error);
 }
-/*
+
 void GattClient_onServiceChanged(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
 	uint8_t opcode, bt_att* att, void* argp)
 {
-	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
-	clnt->onServiceChanged(attr, id, offset, opcode, att);
+	printf("onServiceChanged\n");
+	gatt_db_attribute_read_result(attr, id, 0, nullptr, 0);
 }
 
 void GattClient_onServiceChangedRead(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
 	uint8_t opcode, bt_att* att, void* argp)
 {
-	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
-	clnt->onServiceChangedRead(attr, id, offset, opcode, att);
+	printf("onServiceChangedRead\n");
+
+	uint8_t value[2]{ 0x00, 0x00 };
+	if (m_service_change_enabled)
+		value[0] = 0x02;
+	gatt_db_attribute_read_result(attr, id, 0, value, sizeof(value));
 }
 
 void GattClient_onServiceChangedWrite(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
 	uint8_t const* value, size_t len, uint8_t opcode, bt_att* att, void* argp)
 {
-	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
-	clnt->onServiceChangedWrite(attr, id, offset, value, len, opcode, att);
+	printf("onServiceChangeWrite\n");
+
+	uint8_t ecode = 0;
+	if (!value || (len != 2))
+		ecode = BT_ATT_ERROR_INVALID_ATTRIBUTE_VALUE_LEN;
+
+	if (!ecode && offset)
+		ecode = BT_ATT_ERROR_INVALID_OFFSET;
+
+	if (!ecode)
+	{
+		if (value[0] == 0x00)
+			m_service_change_enabled = false;
+		else if (value[0] == 0x02)
+			m_service_change_enabled = true;
+		else
+			ecode = 0x80;
+	}
+
+	gatt_db_attribute_write_result(attr, id, ecode);
 }
 
 void GattClient_onGapExtendedPropertiesRead(gatt_db_attribute *attr, uint32_t id,
 	uint16_t offset, uint8_t opcode, bt_att* att, void* argp)
 {
-	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
-	clnt->onGapExtendedPropertiesRead(attr, id, offset, opcode, att);
+	uint8_t value[2];
+	value[0] = BT_GATT_CHRC_EXT_PROP_RELIABLE_WRITE;
+	value[1] = 0;
+	gatt_db_attribute_read_result(attr, id, 0, value, sizeof(value));
 }
 
 //void GattClient_onClientDisconnected(int err, void* argp)
@@ -198,22 +222,79 @@ void GattClient_onGapExtendedPropertiesRead(gatt_db_attribute *attr, uint32_t id
 void GattClient_onEPollRead(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
 	uint8_t opcode, bt_att* att, void* argp)
 {
-	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
-	clnt->onEPollRead(attr, id, offset, opcode, att);
+	uint32_t value = m_outgoing_queue.size();
+
+	printf("onEPollRead(offset=%d, opcode=%d)\n", offset, opcode);
+
+	value = htonl(value);
+	gatt_db_attribute_read_result(attr, id, 0, reinterpret_cast<uint8_t const *>(&value),
+		sizeof(value));
 }
 
 void GattClient_onDataChannelIn(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
 	uint8_t const* data, size_t len, uint8_t opcode, bt_att* att, void* argp)
 {
-	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
-	clnt->onDataChannelIn(attr, id, offset, data, len, opcode, att);
+	printf("onDataChannelIn(offset=%d, len=%zd)\n", offset, len);
+
+	// TODO: should this use memory_stream?
+	for (size_t i = 0; i < len; ++i)
+	{
+		char c = static_cast<char>(data[i + offset]);
+		m_incoming_buff.push_back(c);
+
+		if (c == kRecordDelimiter)
+		{
+			if (!m_data_handler)
+			{
+				// TODO:
+				printf("no data handler registered\n");
+			}
+			else
+			{
+				m_incoming_buff.push_back('\0');
+				m_data_handler(&m_incoming_buff[0], m_incoming_buff.size());
+			}
+			m_incoming_buff.clear();
+		}
+	}
+
+	gatt_db_attribute_write_result(attr, id, 0);
 }
 
 void GattClient_onDataChannelOut(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
 	uint8_t opcode, bt_att* att, void* argp)
 {
-	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
-	clnt->onDataChannelOut(attr, id, offset, opcode, att);
+	printf("onDataChannelOut(id=%d, offset=%u, opcode=%d)\n",
+		id, offset, opcode);
+
+	static int32_t const kBufferSize = 256;
+	static uint8_t buff[kBufferSize];
+
+	int n = 0;
+
+	if (offset == 0)
+	{
+		memset(buff, 0, sizeof(buff));
+		n = m_outgoing_queue.get_line((char *)buff, kBufferSize);
+	}
+	else
+	{
+		int bytesToWrite = 0;
+		while ((bytesToWrite + offset) < kBufferSize && (buff[offset + bytesToWrite] != '\0'))
+			bytesToWrite++;
+
+		n = bytesToWrite;
+		printf("bytesToWrite:%d offset:%d n:%d\n", bytesToWrite, offset, n);
+	}
+
+	uint8_t const* value = nullptr;
+	if (n > 0)
+		value = buff + offset;
+	else
+		buff[0] = '\0';
+
+	printf("write:%.*s\n", n, (char *) value);
+	gatt_db_attribute_read_result(attr, id, 0, value, n);
 }
 
 //void GattClient_onTimeout(int UNUSED_PARAM(fd), void* argp)
@@ -222,4 +303,3 @@ void GattClient_onDataChannelOut(gatt_db_attribute* attr, uint32_t id, uint16_t 
 //	clnt->onTimeout();
 //}
 
-*/

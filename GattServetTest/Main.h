@@ -115,7 +115,8 @@ void buildGapService(gatt_db* m_db)
 
 	bt_uuid16_create(&uuid, GATT_CHARAC_EXT_PROPER_UUID);
 	gatt_db_service_add_descriptor(service, &uuid, BT_ATT_PERM_READ,
-		nullptr, nullptr, nullptr);
+		&GattClient_onGapExtendedPropertiesRead, nullptr, nullptr);
+		//nullptr, nullptr, nullptr);
 		//&GattClient_onGapExtendedPropertiesRead, nullptr, this);
 
 	// appearance
@@ -127,7 +128,8 @@ void buildGapService(gatt_db* m_db)
 	uint16_t appearance{ 0 };
 	bt_put_le16(128, &appearance);
 	gatt_db_attribute_write(attr, 0, reinterpret_cast<uint8_t const *>(&appearance),
-		sizeof(appearance), BT_ATT_OP_WRITE_REQ, nullptr, nullptr, nullptr);
+		sizeof(appearance), BT_ATT_OP_WRITE_REQ, nullptr, &DIS_writeCallback, nullptr);
+		//sizeof(appearance), BT_ATT_OP_WRITE_REQ, nullptr, nullptr, nullptr);
 		//sizeof(appearance), BT_ATT_OP_WRITE_REQ, nullptr, &DIS_writeCallback, nullptr);
 
 	gatt_db_service_set_active(service, true);
@@ -148,12 +150,14 @@ void buildGattService(gatt_db* m_db)
 	bt_uuid16_create(&uuid, GATT_CHARAC_SERVICE_CHANGED);
 	gatt_db_service_add_characteristic(service, &uuid, BT_ATT_PERM_READ,
 		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_INDICATE,
-		nullptr, nullptr, nullptr);
+		GattClient_onServiceChanged, nullptr, nullptr);
+		//nullptr, nullptr, nullptr);
 		//GattClient_onServiceChanged, nullptr, this);
 
 	bt_uuid16_create(&uuid, GATT_CLIENT_CHARAC_CFG_UUID);
 	gatt_db_service_add_descriptor(service, &uuid, BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
-		nullptr, nullptr, nullptr);
+		GattClient_onServiceChangedRead, GattClient_onServiceChangedWrite, nullptr);
+		//nullptr, nullptr, nullptr);
 		//GattClient_onServiceChangedRead, GattClient_onServiceChangedWrite, this);
 
 	gatt_db_service_set_active(service, true);
