@@ -1,6 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+// °Ñ¦Òbleconfd
 
 #include <iostream>
 
@@ -53,6 +54,34 @@ std::string const kUuidRpcEPoll{ "5140f882-eb90-11e8-a835-13d2bd922d3f" };
 
 using namespace std;
 
+void GattClient_onGapRead(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t opcode, bt_att* att, void* argp);
+
+void GattClient_onGapWrite(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t const* data, size_t len, uint8_t opcode, bt_att* att, void* argp);
+
+void GattClient_onServiceChanged(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t opcode, bt_att* att, void* argp);
+
+void GattClient_onServiceChangedRead(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t opcode, bt_att* att, void* argp);
+
+void GattClient_onServiceChangedWrite(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t const* value, size_t len, uint8_t opcode, bt_att* att, void* argp);
+
+void GattClient_onGapExtendedPropertiesRead(gatt_db_attribute *attr, uint32_t id,
+	uint16_t offset, uint8_t opcode, bt_att* att, void* argp);
+
+void GattClient_onEPollRead(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t opcode, bt_att* att, void* argp);
+
+void GattClient_onDataChannelIn(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t const* data, size_t len, uint8_t opcode, bt_att* att, void* argp);
+
+void GattClient_onDataChannelOut(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t opcode, bt_att* att, void* argp);
+
+
 
 void onClientDisconnected(int err, void* argp)
 {
@@ -80,7 +109,8 @@ void buildGapService(gatt_db* m_db)
 	bt_uuid16_create(&uuid, GATT_CHARAC_DEVICE_NAME);
 	gatt_db_service_add_characteristic(service, &uuid, BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
 		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_EXT_PROP,
-		nullptr, nullptr, nullptr);
+		&GattClient_onGapRead, &GattClient_onGapWrite, this);
+		//nullptr, nullptr, nullptr);
 		//&GattClient_onGapRead, &GattClient_onGapWrite, this);
 
 	bt_uuid16_create(&uuid, GATT_CHARAC_EXT_PROPER_UUID);

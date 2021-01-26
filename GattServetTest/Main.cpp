@@ -111,3 +111,115 @@ int main() {
 
 	return 0;
 }
+
+void GattClient_onGapRead(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t opcode, bt_att* att, void* argp)
+{
+	//GattClient* clnt = reinterpret_cast<GattClient *>(argp);
+	//clnt->onGapRead(attr, id, offset, opcode, att);
+
+	printf("onGapRead %04x\n", id);
+
+	uint8_t error = 0;
+	size_t len = strlen(ServerName);
+	if (offset > len)
+	{
+		error = BT_ATT_ERROR_INVALID_OFFSET;
+	}
+	else
+	{
+		error = 0;
+		len -= offset;
+		uint8_t const* value = nullptr;
+		if (len)
+		{
+			value = reinterpret_cast<uint8_t const *>(ServerName + offset);
+		}
+		gatt_db_attribute_read_result(attr, id, error, value, len);
+	}
+}
+
+void GattClient_onGapWrite(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t const* data, size_t len, uint8_t opcode, bt_att* att, void* argp)
+{
+	printf("onGapWrite\n");
+
+	uint8_t error = 0;
+	if ((offset + len) == 0)
+	{
+		memset(ServerName, 0, sizeof(ServerName));
+	}
+	else if (offset > sizeof(ServerName))
+	{
+		error = BT_ATT_ERROR_INVALID_OFFSET;
+	}
+	else
+	{
+		memcpy(ServerName + offset, data, len);
+	}
+
+	gatt_db_attribute_write_result(attr, id, error);
+}
+/*
+void GattClient_onServiceChanged(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t opcode, bt_att* att, void* argp)
+{
+	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
+	clnt->onServiceChanged(attr, id, offset, opcode, att);
+}
+
+void GattClient_onServiceChangedRead(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t opcode, bt_att* att, void* argp)
+{
+	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
+	clnt->onServiceChangedRead(attr, id, offset, opcode, att);
+}
+
+void GattClient_onServiceChangedWrite(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t const* value, size_t len, uint8_t opcode, bt_att* att, void* argp)
+{
+	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
+	clnt->onServiceChangedWrite(attr, id, offset, value, len, opcode, att);
+}
+
+void GattClient_onGapExtendedPropertiesRead(gatt_db_attribute *attr, uint32_t id,
+	uint16_t offset, uint8_t opcode, bt_att* att, void* argp)
+{
+	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
+	clnt->onGapExtendedPropertiesRead(attr, id, offset, opcode, att);
+}
+
+//void GattClient_onClientDisconnected(int err, void* argp)
+//{
+//	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
+//	clnt->onClientDisconnected(err);
+//}
+
+void GattClient_onEPollRead(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t opcode, bt_att* att, void* argp)
+{
+	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
+	clnt->onEPollRead(attr, id, offset, opcode, att);
+}
+
+void GattClient_onDataChannelIn(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t const* data, size_t len, uint8_t opcode, bt_att* att, void* argp)
+{
+	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
+	clnt->onDataChannelIn(attr, id, offset, data, len, opcode, att);
+}
+
+void GattClient_onDataChannelOut(gatt_db_attribute* attr, uint32_t id, uint16_t offset,
+	uint8_t opcode, bt_att* att, void* argp)
+{
+	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
+	clnt->onDataChannelOut(attr, id, offset, opcode, att);
+}
+
+//void GattClient_onTimeout(int UNUSED_PARAM(fd), void* argp)
+//{
+//	GattClient* clnt = reinterpret_cast<GattClient *>(argp);
+//	clnt->onTimeout();
+//}
+
+*/
