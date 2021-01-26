@@ -48,7 +48,7 @@ cmdDown(int ctl, int hdev)
 {
   if (ioctl(ctl, HCIDEVDOWN, hdev) < 0)
   {
-    XLOG_FATAL("Can't down device hci%d: %s (%d)", hdev, strerror(errno), errno);
+	  printf("Can't down device hci%d: %s (%d)\n", hdev, strerror(errno), errno);
   }
 }
 
