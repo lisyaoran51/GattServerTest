@@ -48,7 +48,7 @@ std::string const kUuidRpcInbox{ "510c87c8-eb90-11e8-b3dc-17292c2ecc2d" };
 std::string const kUuidRpcEPoll{ "5140f882-eb90-11e8-a835-13d2bd922d3f" };
 
 bool m_service_change_enabled = false;
-memory_stream       m_outgoing_queue;
+memory_stream       m_outgoing_queue(kRecordDelimiter);
 std::vector<char>   m_incoming_buff;
 
 
