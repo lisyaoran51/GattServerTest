@@ -7,6 +7,7 @@
 
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/l2cap.h>
+#include <vector>
 
 // these are pulled directly from the BlueZ source tree
 extern "C"
@@ -45,7 +46,17 @@ std::string const kUuidRpcService{ "503553ca-eb90-11e8-ac5b-bb7e434023e8" };
 std::string const kUuidRpcInbox{ "510c87c8-eb90-11e8-b3dc-17292c2ecc2d" };
 std::string const kUuidRpcEPoll{ "5140f882-eb90-11e8-a835-13d2bd922d3f" };
 
+bool m_service_change_enabled = false;
+memory_stream       m_outgoing_queue;
+std::vector<char>   m_incoming_buff;
 
+void DIS_writeCallback(gatt_db_attribute* UNUSED_PARAM(attr), int err, void* UNUSED_PARAM(argp))
+{
+	if (err)
+	{
+		printf("error writing to DIS service in GATT db. %d\n", err);
+	}
+}
 
 
 

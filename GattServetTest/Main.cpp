@@ -244,17 +244,18 @@ void GattClient_onDataChannelIn(gatt_db_attribute* attr, uint32_t id, uint16_t o
 
 		if (c == kRecordDelimiter)
 		{
-			if (!m_data_handler)
-			{
-				// TODO:
-				printf("no data handler registered\n");
-			}
-			else
-			{
-				m_incoming_buff.push_back('\0');
-				m_data_handler(&m_incoming_buff[0], m_incoming_buff.size());
-			}
-			m_incoming_buff.clear();
+			// 這邊晚點補，要用到rpc handler
+			//if (!m_data_handler)
+			//{
+			//	// TODO:
+			//	printf("no data handler registered\n");
+			//}
+			//else
+			//{
+			//	m_incoming_buff.push_back('\0');
+			//	m_data_handler(&m_incoming_buff[0], m_incoming_buff.size());
+			//}
+			//m_incoming_buff.clear();
 		}
 	}
 
