@@ -44,6 +44,8 @@ int main() {
 	if (ret < 0)
 		cout << "failed to listen on bluetooth socket";
 
+	startBeacon("XPI-SETUP", 0)
+
 	/* gatt server accept */
 
 	mainloop_init();

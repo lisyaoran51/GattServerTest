@@ -26,7 +26,7 @@ extern "C"
 
 #include "CommandToString.h"
 #include "memory_stream.h"
-
+#include "beacon.h"
 
 
 char ServerName[64]{ "TheUnknownServer" };
