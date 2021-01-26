@@ -25,6 +25,7 @@ extern "C"
 
 
 #include "CommandToString.h"
+#include "memory_stream.h"
 
 
 
@@ -49,14 +50,6 @@ std::string const kUuidRpcEPoll{ "5140f882-eb90-11e8-a835-13d2bd922d3f" };
 bool m_service_change_enabled = false;
 memory_stream       m_outgoing_queue;
 std::vector<char>   m_incoming_buff;
-
-void DIS_writeCallback(gatt_db_attribute* UNUSED_PARAM(attr), int err, void* UNUSED_PARAM(argp))
-{
-	if (err)
-	{
-		printf("error writing to DIS service in GATT db. %d\n", err);
-	}
-}
 
 
 
@@ -106,6 +99,16 @@ void onClientDisconnected(int err, void* argp)
 void onTimeout(int UNUSED_PARAM(fd), void* argp)
 {
 	cout << "timeout";
+}
+
+
+
+void DIS_writeCallback(gatt_db_attribute* UNUSED_PARAM(attr), int err, void* UNUSED_PARAM(argp))
+{
+	if (err)
+	{
+		printf("error writing to DIS service in GATT db. %d\n", err);
+	}
 }
 
 /* buildGapService */
