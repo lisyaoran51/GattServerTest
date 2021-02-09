@@ -235,7 +235,7 @@ void buildDeviceInfoService(gatt_db* m_db)
 	gatt_db_service_set_active(service, true);
 }
 
-void buildJsonRpcService(gatt_db* m_db)
+void buildRpcService(gatt_db* m_db)
 {
 	bt_uuid_t uuid;
 

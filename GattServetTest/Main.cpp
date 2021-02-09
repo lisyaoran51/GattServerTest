@@ -106,6 +106,7 @@ int main() {
 	/* buildGattService */
 	buildGattService(m_db);
 
+	buildRpcService(m_db);
 
 	/* GattClient::run */
 
