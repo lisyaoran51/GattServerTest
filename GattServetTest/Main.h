@@ -243,7 +243,7 @@ void buildJsonRpcService(gatt_db* m_db)
 	gatt_db_attribute* service = gatt_db_add_service(m_db, &uuid, true, 25);
 	if (!service)
 	{
-		XLOG_CRITICAL("failed to add rpc service to gatt db");
+		printf("failed to add rpc service to gatt db");
 	}
 
 	// data channel
@@ -259,7 +259,7 @@ void buildJsonRpcService(gatt_db* m_db)
 
 	if (!m_data_channel)
 	{
-		XLOG_CRITICAL("failed to create inbox characteristic");
+		printf("failed to create inbox characteristic");
 	}
 
 	// blepoll
@@ -285,7 +285,7 @@ void buildJsonRpcService(gatt_db* m_db)
 
 	if (!m_blepoll)
 	{
-		XLOG_CRITICAL("failed to create ble poll indicator characteristic");
+		printf("failed to create ble poll indicator characteristic");
 	}
 
 	gatt_db_service_set_active(service, true);
