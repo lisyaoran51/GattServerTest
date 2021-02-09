@@ -235,6 +235,61 @@ void buildDeviceInfoService(gatt_db* m_db)
 	gatt_db_service_set_active(service, true);
 }
 
+void buildJsonRpcService(gatt_db* m_db)
+{
+	bt_uuid_t uuid;
+
+	bt_string_to_uuid(&uuid, kUuidRpcService.c_str());
+	gatt_db_attribute* service = gatt_db_add_service(m_db, &uuid, true, 25);
+	if (!service)
+	{
+		XLOG_CRITICAL("failed to add rpc service to gatt db");
+	}
+
+	// data channel
+	bt_string_to_uuid(&uuid, kUuidRpcInbox.c_str());
+	gatt_db_attribute* m_data_channel = gatt_db_service_add_characteristic(
+		service,
+		&uuid,
+		BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
+		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE,
+		&GattClient_onDataChannelOut,
+		&GattClient_onDataChannelIn,
+		nullptr);
+
+	if (!m_data_channel)
+	{
+		XLOG_CRITICAL("failed to create inbox characteristic");
+	}
+
+	// blepoll
+	bt_string_to_uuid(&uuid, kUuidRpcEPoll.c_str());
+	gatt_db_attribute* m_blepoll = gatt_db_service_add_characteristic(
+		service,
+		&uuid,
+		BT_ATT_PERM_READ,
+		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
+		&GattClient_onEPollRead,
+		nullptr,
+		nullptr);
+	uint16_t m_notify_handle = gatt_db_attribute_get_handle(m_blepoll);
+
+	bt_uuid16_create(&uuid, GATT_CLIENT_CHARAC_CFG_UUID);
+	gatt_db_service_add_descriptor(
+		service,
+		&uuid,
+		BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
+		&GattClient_onEPollRead,
+		nullptr,
+		nullptr);
+
+	if (!m_blepoll)
+	{
+		XLOG_CRITICAL("failed to create ble poll indicator characteristic");
+	}
+
+	gatt_db_service_set_active(service, true);
+}
 
 
 #endif
