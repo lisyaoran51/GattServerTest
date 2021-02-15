@@ -268,18 +268,19 @@ void buildRpcService(gatt_db* m_db)
 	}
 
 	// blepoll
-	bt_string_to_uuid(&uuid, kUuidRpcEPoll.c_str());
+	//bt_string_to_uuid(&uuid, kUuidRpcEPoll.c_str());
+	bt_string_to_uuid(&uuid, Notify_Characteristic_UUID.c_str());
 	gatt_db_attribute* m_blepoll = gatt_db_service_add_characteristic(
 		service,
 		&uuid,
-		BT_ATT_PERM_NONE,
-		BT_GATT_CHRC_PROP_NOTIFY,
-		NULL, NULL, NULL);
-		//BT_ATT_PERM_READ,
-		//BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
-		//&GattClient_onEPollRead,
-		//nullptr,
-		//nullptr);
+		//BT_ATT_PERM_NONE,
+		//BT_GATT_CHRC_PROP_NOTIFY,
+		//NULL, NULL, NULL);
+		BT_ATT_PERM_READ,
+		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
+		&GattClient_onEPollRead,
+		nullptr,
+		nullptr);
 
 	/*
 	uint16_t m_notify_handle = gatt_db_attribute_get_handle(m_blepoll);
