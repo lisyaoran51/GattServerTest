@@ -19,8 +19,8 @@ void send_notifications()
 	usleep(1000000);
 	int count = 0;
 
-	const char data[16] = { 0 };
-	const char *p = data;
+	const uint8_t data[16] = { 0 };
+	//const char *p = data;
 
 	while (1) {
 
