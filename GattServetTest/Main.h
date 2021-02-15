@@ -330,6 +330,7 @@ void buildTomofunService(gatt_db* m_db) {
 	service = gatt_db_add_service(m_db, &uuid, true, 8);
 	//server->hr_handle = gatt_db_attribute_get_handle(service);
 
+	printf("Command_Characteristic_UUID\n");
 	/*Command Characteristic */
 	bt_string_to_uuid(&uuid, Command_Characteristic_UUID.c_str());
 
@@ -339,6 +340,7 @@ void buildTomofunService(gatt_db* m_db) {
 		NULL,
 		tomo_command_write_cb, NULL);// server);
 
+	printf("Data_Characteristic_UUID\n");
 	/*Data Characteristic */
 	bt_string_to_uuid(&uuid, Data_Characteristic_UUID.c_str());
 
@@ -347,6 +349,7 @@ void buildTomofunService(gatt_db* m_db) {
 		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE,
 		tomo_data_read_cb, tomo_data_write_cb, NULL);// server);
 
+	printf("Notify_Characteristic_UUID\n");
 	/*Notify Characteristic */
 	bt_string_to_uuid(&uuid, Notify_Characteristic_UUID.c_str());
 
@@ -358,9 +361,11 @@ void buildTomofunService(gatt_db* m_db) {
 		BT_GATT_CHRC_PROP_NOTIFY,
 		NULL, NULL, NULL);
 
+	printf("tomo_notify_handle\n");
 	uint16_t tomo_notify_handle; 
 	tomo_notify_handle = gatt_db_attribute_get_handle(tomo_notify);
 
+	printf("GATT_CLIENT_CHARAC_CFG_UUID\n");
 	/*Needed by Notify Characteristic.*/
 	bt_uuid16_create(&uuid, GATT_CLIENT_CHARAC_CFG_UUID);
 	gatt_db_service_add_descriptor(service, &uuid,
