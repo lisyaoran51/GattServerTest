@@ -132,8 +132,8 @@ int main() {
 
 	int m_mtu = 256;
 
-	bt_gatt_server* m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0);
-	m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0); // 這個是bluez 5.50版用的
+	//bt_gatt_server* m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0);
+	//m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0); // 這個是bluez 5.50版用的
 	m_server = bt_gatt_server_new(m_db, m_att, m_mtu);		// 這個是bluez 5.43版用的
 	if (!m_server)
 	{
