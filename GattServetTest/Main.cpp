@@ -20,7 +20,7 @@ void send_notifications()
 	usleep(10000000);
 	int count = 0;
 
-	uint8_t data[16] = { 0 };
+	uint8_t data[256] = { 0 };
 	//const char *p = data;
 	int tempsec = 0;
 	timeval tv;
@@ -32,7 +32,7 @@ void send_notifications()
 		bt_gatt_server_send_notification(m_server,
 			tomo_notify_handle,
 			data,
-			16);//notify_len)
+			256);//notify_len)
 		data[15]++;
 		count++;
 		//usleep(1000);
@@ -42,7 +42,7 @@ void send_notifications()
 
 			cout << "Notification data: " << count * 20 / 1024 << " byte at " << tempsec << endl;
 			tempsec = tv.tv_sec;
-			data[10]++;
+			data[9]++;
 		}
 
 	}
@@ -124,7 +124,7 @@ int main() {
 		cout << "failed to create gatt database";
 	}
 
-	int m_mtu = 16;
+	int m_mtu = 256;
 
 	//bt_gatt_server* m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0);
 	m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0);
