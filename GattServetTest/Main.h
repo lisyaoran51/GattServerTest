@@ -366,7 +366,7 @@ void buildTomofunService(gatt_db* m_db) {
 	gatt_db_service_add_descriptor(service, &uuid,
 		BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
 		NULL,
-		NULL, server);
+		NULL, NULL); //server);
 
 	gatt_db_service_set_active(service, true);
 
