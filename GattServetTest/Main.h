@@ -48,6 +48,7 @@ std::string const kUuidRpcInbox{ "510c87c8-eb90-11e8-b3dc-17292c2ecc2d" };
 std::string const kUuidRpcEPoll{ "5140f882-eb90-11e8-a835-13d2bd922d3f" };
 
 std::string const kUuidTomofun{ "77f9a069-2ff9-4ff9-93b7-4db9689f4b53" };
+std::string const Command_Characteristic_UUID = { "026048ab-fafc-48e5-9db0-a9bc46368055" };
 std::string const Data_Characteristic_UUID = { "4cc2ee25-d059-4575-a4d8-d13565d7928c" }; // Write
 std::string const Notify_Characteristic_UUID = { "30c95538-58f8-4db4-a62e-08af4bae4cb0" }; // Read Notify
 
@@ -327,10 +328,10 @@ void buildTomofunService(gatt_db* m_db) {
 
 
 	service = gatt_db_add_service(m_db, &uuid, true, 8);
-	server->hr_handle = gatt_db_attribute_get_handle(service);
+	//server->hr_handle = gatt_db_attribute_get_handle(service);
 
 	/*Command Characteristic */
-	bt_string_to_uuid(&uuid, Command_Characteristic_UUID);
+	bt_string_to_uuid(&uuid, Command_Characteristic_UUID.c_str());
 
 	gatt_db_service_add_characteristic(service, &uuid,
 		BT_ATT_PERM_WRITE,
@@ -339,7 +340,7 @@ void buildTomofunService(gatt_db* m_db) {
 		tomo_command_write_cb, server);
 
 	/*Data Characteristic */
-	bt_string_to_uuid(&uuid, Data_Characteristic_UUID);
+	bt_string_to_uuid(&uuid, Data_Characteristic_UUID.c_str());
 
 	gatt_db_service_add_characteristic(service, &uuid,
 		BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
@@ -347,7 +348,7 @@ void buildTomofunService(gatt_db* m_db) {
 		tomo_data_read_cb, tomo_data_write_cb, server);
 
 	/*Notify Characteristic */
-	bt_string_to_uuid(&uuid, Notify_Characteristic_UUID);
+	bt_string_to_uuid(&uuid, Notify_Characteristic_UUID.c_str());
 
 	struct gatt_db_attribute *tomo_notify = gatt_db_service_add_characteristic(service, &uuid,
 		//BT_ATT_PERM_READ,
