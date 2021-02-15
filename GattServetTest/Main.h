@@ -335,7 +335,7 @@ void buildTomofunService(gatt_db* m_db) {
 		printf("failed to add tomofun service to gatt db");
 	}
 	
-	return;
+	goto label;
 
 	printf("Command_Characteristic_UUID\n");
 	/*Command Characteristic */
@@ -379,6 +379,9 @@ void buildTomofunService(gatt_db* m_db) {
 		BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
 		NULL,
 		NULL, NULL); //server);
+
+
+label:
 
 	gatt_db_service_set_active(service, true);
 
