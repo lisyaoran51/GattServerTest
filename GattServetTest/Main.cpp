@@ -31,7 +31,7 @@ void send_notifications()
 		data[15]++;
 		count++;
 		cout << "Notification count: " << count << endl;
-		usleep(500000);
+		usleep(1000);
 	}
 
 	
