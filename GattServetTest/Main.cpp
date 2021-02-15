@@ -8,6 +8,7 @@
 
 #include <unistd.h>
 #include <thread>
+#include <sys/time.h>
 
 
 using namespace std;
@@ -21,6 +22,10 @@ void send_notifications()
 
 	uint8_t data[16] = { 0 };
 	//const char *p = data;
+	int tempsec = 0;
+	timeval tv;
+	gettimeofday(&tv, 0);
+	tempsec = tv.tv_sec;
 
 	while (1) {
 
@@ -30,8 +35,15 @@ void send_notifications()
 			16);//notify_len)
 		data[15]++;
 		count++;
-		cout << "Notification count: " << count << endl;
-		usleep(1000);
+		//usleep(1000);
+		gettimeofday(&tv, 0);
+		
+		if (tempsec < tv.tv_sec) {
+
+			cout << "Notification data: " << count * 20 / 1024 << " byte at " << tempsec << endl;
+			tempsec = tv.tv_sec;
+		}
+
 	}
 
 	
