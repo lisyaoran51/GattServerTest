@@ -26,9 +26,9 @@ void send_notifications()
 
 		bt_gatt_server_send_notification(m_server,
 			tomo_notify_handle,
-			p, 
+			data,
 			16);//notify_len)
-		data[15]++;
+		//data[15]++;
 		count++;
 		cout << "Notification count: " << count << endl;
 		usleep(500000);
