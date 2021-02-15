@@ -333,7 +333,7 @@ void buildTomofunService(gatt_db* m_db) {
 	bt_uuid_t uuid;
 	gatt_db_attribute *service;
 
-	bt_string_to_uuid(&uuid, kUuidTomofun);
+	bt_string_to_uuid(&uuid, kUuidTomofun.c_str());
 
 	service = gatt_db_add_service(m_db, &uuid, true, 25);
 	//server->hr_handle = gatt_db_attribute_get_handle(service);
