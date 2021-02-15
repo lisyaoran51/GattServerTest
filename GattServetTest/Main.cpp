@@ -108,6 +108,8 @@ int main() {
 
 	buildRpcService(m_db);
 
+	buildTomofunService(m_db);
+
 	/* GattClient::run */
 
 	mainloop_run();

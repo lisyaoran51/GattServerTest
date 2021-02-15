@@ -47,6 +47,10 @@ std::string const kUuidRpcService{ "503553ca-eb90-11e8-ac5b-bb7e434023e8" };
 std::string const kUuidRpcInbox{ "510c87c8-eb90-11e8-b3dc-17292c2ecc2d" };
 std::string const kUuidRpcEPoll{ "5140f882-eb90-11e8-a835-13d2bd922d3f" };
 
+std::string const kUuidTomofun{ "77f9a069-2ff9-4ff9-93b7-4db9689f4b53" };
+std::string const Data_Characteristic_UUID = { "4cc2ee25-d059-4575-a4d8-d13565d7928c" }; // Write
+std::string const Notify_Characteristic_UUID = { "30c95538-58f8-4db4-a62e-08af4bae4cb0" }; // Read Notify
+
 bool m_service_change_enabled = false;
 memory_stream       m_outgoing_queue(kRecordDelimiter);
 std::vector<char>   m_incoming_buff;
@@ -289,6 +293,83 @@ void buildRpcService(gatt_db* m_db)
 	}
 
 	gatt_db_service_set_active(service, true);
+}
+
+
+static void tomo_command_write_cb(struct gatt_db_attribute *attrib,
+	unsigned int id, uint16_t offset,
+	const uint8_t *value, size_t len,
+	uint8_t opcode, struct bt_att *att,
+	void *user_data) {
+	printf("tomo_command_write_cb\n");
+}
+
+static void tomo_data_read_cb(struct gatt_db_attribute *attrib,
+	unsigned int id, uint16_t offset,
+	uint8_t opcode, struct bt_att *att,
+	void *user_data){
+	printf("tomo_data_read_cb\n");
+}
+
+static void tomo_data_write_cb(struct gatt_db_attribute *attrib,
+	unsigned int id, uint16_t offset,
+	const uint8_t *value, size_t len,
+	uint8_t opcode, struct bt_att *att,
+	void *user_data){
+	printf("tomo_data_write_cb\n");
+}
+
+
+void buildTomofunService(gatt_db* m_db) {
+	struct gatt_db_attribute *service;
+
+
+	service = gatt_db_add_service(m_db, &uuid, true, 8);
+	server->hr_handle = gatt_db_attribute_get_handle(service);
+
+	/*Command Characteristic */
+	bt_string_to_uuid(&uuid, Command_Characteristic_UUID);
+
+	body = gatt_db_service_add_characteristic(service, &uuid,
+		BT_ATT_PERM_WRITE,
+		BT_GATT_CHRC_PROP_WRITE,
+		NULL,
+		tomo_command_write_cb, server);
+
+	/*Data Characteristic */
+	bt_string_to_uuid(&uuid, Data_Characteristic_UUID);
+
+	body = gatt_db_service_add_characteristic(service, &uuid,
+		BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
+		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE,
+		tomo_data_read_cb, tomo_data_write_cb, server);
+
+	/*Notify Characteristic */
+	bt_string_to_uuid(&uuid, Notify_Characteristic_UUID);
+
+	struct gatt_db_attribute tomo_notify = gatt_db_service_add_characteristic(service, &uuid,
+		//BT_ATT_PERM_READ,
+		//BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
+		//gatt_service_changed_cb, NULL, server);
+		BT_ATT_PERM_NONE,
+		BT_GATT_CHRC_PROP_NOTIFY,
+		NULL, NULL, NULL);
+
+	uint16_t tomo_notify_handle; 
+	tomo_notify_handle = gatt_db_attribute_get_handle(tomo_notify);
+
+	/*Needed by Notify Characteristic.*/
+	bt_uuid16_create(&uuid, GATT_CLIENT_CHARAC_CFG_UUID);
+	gatt_db_service_add_descriptor(service, &uuid,
+		BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
+		NULL,
+		NULL, server);
+
+	gatt_db_service_set_active(service, true);
+
+
+
+
 }
 
 
