@@ -354,17 +354,17 @@ void buildTomofunService(gatt_db* m_db) {
 		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE,
 		&tomo_data_read_cb, &tomo_data_write_cb, NULL);// server);
 	
-	//printf("Notify_Characteristic_UUID\n");
-	///*Notify Characteristic */
-	//bt_string_to_uuid(&uuid, Notify_Characteristic_UUID.c_str());
-	//
-	//gatt_db_attribute *tomo_notify = gatt_db_service_add_characteristic(service, &uuid,
-	//	//BT_ATT_PERM_READ,
-	//	//BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
-	//	//gatt_service_changed_cb, NULL, server);
-	//	BT_ATT_PERM_NONE,
-	//	BT_GATT_CHRC_PROP_NOTIFY,
-	//	NULL, NULL, NULL);
+	printf("Notify_Characteristic_UUID\n");
+	/*Notify Characteristic */
+	bt_string_to_uuid(&uuid, Notify_Characteristic_UUID.c_str());
+	
+	gatt_db_attribute *tomo_notify = gatt_db_service_add_characteristic(service, &uuid,
+		//BT_ATT_PERM_READ,
+		//BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
+		//gatt_service_changed_cb, NULL, server);
+		BT_ATT_PERM_NONE,
+		BT_GATT_CHRC_PROP_NOTIFY,
+		NULL, NULL, NULL);
 	//
 	//printf("tomo_notify_handle\n");
 	//uint16_t tomo_notify_handle; 
