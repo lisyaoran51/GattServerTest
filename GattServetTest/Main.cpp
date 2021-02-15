@@ -46,7 +46,7 @@ void send_notifications()
 		
 		if (tempsec < tv.tv_sec) {
 
-			cout << "Notification data: " << count * 20 / 1024 << " byte at " << tempsec << endl;
+			cout << "Notification data: " << count * 256 / 1024 << " byte at " << tempsec << endl;
 			tempsec = tv.tv_sec;
 			data[9]++;
 		}
