@@ -297,7 +297,7 @@ void buildRpcService(gatt_db* m_db)
 }
 
 
-static void tomo_command_write_cb(struct gatt_db_attribute *attrib,
+void tomo_command_write_cb(struct gatt_db_attribute *attrib,
 	unsigned int id, uint16_t offset,
 	const uint8_t *value, size_t len,
 	uint8_t opcode, struct bt_att *att,
@@ -305,14 +305,14 @@ static void tomo_command_write_cb(struct gatt_db_attribute *attrib,
 	printf("tomo_command_write_cb\n");
 }
 
-static void tomo_data_read_cb(struct gatt_db_attribute *attrib,
+void tomo_data_read_cb(struct gatt_db_attribute *attrib,
 	unsigned int id, uint16_t offset,
 	uint8_t opcode, struct bt_att *att,
 	void *user_data){
 	printf("tomo_data_read_cb\n");
 }
 
-static void tomo_data_write_cb(struct gatt_db_attribute *attrib,
+void tomo_data_write_cb(struct gatt_db_attribute *attrib,
 	unsigned int id, uint16_t offset,
 	const uint8_t *value, size_t len,
 	uint8_t opcode, struct bt_att *att,
