@@ -42,6 +42,7 @@ void send_notifications()
 
 			cout << "Notification data: " << count * 20 / 1024 << " byte at " << tempsec << endl;
 			tempsec = tv.tv_sec;
+			data[10]++;
 		}
 
 	}
