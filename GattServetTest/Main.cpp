@@ -134,22 +134,22 @@ int main() {
 
 	//bt_gatt_server* m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0);
 	//m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0); // 這個是bluez 5.50版用的
-	m_server = bt_gatt_server_new(m_db, m_att, m_mtu);		// 這個是bluez 5.43版用的
-	if (!m_server)
-	{
-		cout << "failed to create gatt server" << errno;
-	}
+	//m_server = bt_gatt_server_new(m_db, m_att, m_mtu);		// 這個是bluez 5.43版用的
+	//if (!m_server)
+	//{
+	//	cout << "failed to create gatt server" << errno;
+	//}
 
-	//do{
-	//	m_server = bt_gatt_server_new(m_db, m_att, m_mtu);		// 這個是bluez 5.43版用的
-	//	if (!m_server)
-	//	{
-	//		cout << "failed to create gatt server" << m_mtu << " : " << errno;
-	//	}
-	//
-	//	m_mtu /= 2;
-	//
-	//} while (!m_server);
+	do{
+		m_server = bt_gatt_server_new(m_db, m_att, m_mtu);		// 這個是bluez 5.43版用的
+		if (!m_server)
+		{
+			cout << "failed to create gatt server" << m_mtu << " : " << errno;
+		}
+	
+		m_mtu /= 2;
+	
+	} while (!m_server);
 
 	if (true)
 	{
