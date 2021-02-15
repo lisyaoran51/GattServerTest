@@ -280,6 +280,8 @@ void buildRpcService(gatt_db* m_db)
 		//&GattClient_onEPollRead,
 		//nullptr,
 		//nullptr);
+
+	/*
 	uint16_t m_notify_handle = gatt_db_attribute_get_handle(m_blepoll);
 
 	bt_uuid16_create(&uuid, GATT_CLIENT_CHARAC_CFG_UUID);
@@ -295,6 +297,7 @@ void buildRpcService(gatt_db* m_db)
 	{
 		printf("failed to create ble poll indicator characteristic");
 	}
+	*/
 
 	gatt_db_service_set_active(service, true);
 }
