@@ -327,7 +327,7 @@ void buildTomofunService(gatt_db* m_db) {
 	struct gatt_db_attribute *service;
 
 
-	service = gatt_db_add_service(m_db, &uuid, true, 8);
+	service = gatt_db_add_service(m_db, &uuid, true, 35);
 	//server->hr_handle = gatt_db_attribute_get_handle(service);
 
 	return;
