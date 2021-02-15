@@ -324,13 +324,18 @@ void tomo_data_write_cb(struct gatt_db_attribute *attrib,
 void buildTomofunService(gatt_db* m_db) {
 
 	bt_uuid_t uuid;
-	struct gatt_db_attribute *service;
+	gatt_db_attribute *service;
 
 
 	service = gatt_db_add_service(m_db, &uuid, true, 25);
 	//server->hr_handle = gatt_db_attribute_get_handle(service);
-
 	
+	if (!service)
+	{
+		printf("failed to add tomofun service to gatt db");
+	}
+	
+	return;
 
 	printf("Command_Characteristic_UUID\n");
 	/*Command Characteristic */
@@ -355,7 +360,7 @@ void buildTomofunService(gatt_db* m_db) {
 	/*Notify Characteristic */
 	bt_string_to_uuid(&uuid, Notify_Characteristic_UUID.c_str());
 
-	struct gatt_db_attribute *tomo_notify = gatt_db_service_add_characteristic(service, &uuid,
+	gatt_db_attribute *tomo_notify = gatt_db_service_add_characteristic(service, &uuid,
 		//BT_ATT_PERM_READ,
 		//BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
 		//gatt_service_changed_cb, NULL, server);
