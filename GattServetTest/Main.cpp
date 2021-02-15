@@ -19,7 +19,7 @@ void send_notifications()
 	usleep(10000000);
 	int count = 0;
 
-	const uint8_t data[16] = { 0 };
+	uint8_t data[16] = { 0 };
 	//const char *p = data;
 
 	while (1) {
@@ -28,7 +28,7 @@ void send_notifications()
 			tomo_notify_handle,
 			data,
 			16);//notify_len)
-		//data[15]++;
+		data[15]++;
 		count++;
 		cout << "Notification count: " << count << endl;
 		usleep(500000);
