@@ -330,6 +330,8 @@ void buildTomofunService(gatt_db* m_db) {
 	service = gatt_db_add_service(m_db, &uuid, true, 8);
 	//server->hr_handle = gatt_db_attribute_get_handle(service);
 
+	return;
+
 	printf("Command_Characteristic_UUID\n");
 	/*Command Characteristic */
 	bt_string_to_uuid(&uuid, Command_Characteristic_UUID.c_str());
