@@ -16,7 +16,7 @@ using namespace std;
 void send_notifications()
 {
 
-	usleep(1000000);
+	usleep(10000000);
 	int count = 0;
 
 	const uint8_t data[16] = { 0 };
@@ -145,8 +145,11 @@ int main() {
 
 	thread mThread(send_notifications);
 
+	printf("before mainloop\n");
+
 	mainloop_run();
 
+	printf("after mainloop\n");
 
 
 	return 0;
