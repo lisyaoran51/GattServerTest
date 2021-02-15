@@ -15,4 +15,12 @@ int bt_att_write_queue_size(struct bt_att *att){
 att.h加一行
 int bt_att_write_queue_size(struct bt_att *att);
 
+在gatt-server.c加一行
+int bt_gatt_server_get_write_queue_length(struct bt_gatt_server *server){
+	return bt_att_write_queue_size(server->att);
+}
+	
+在gatt-server.h加一行
+int bt_gatt_server_get_write_queue_length(struct bt_gatt_server *server);
+
 然後重新compile bluez，再拿他的libshared-mainloop.a和uuid.o出來用

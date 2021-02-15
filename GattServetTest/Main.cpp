@@ -35,6 +35,8 @@ void send_notifications()
 			data,
 			256);//notify_len)
 
+		cout << bt_gatt_server_get_write_queue_length(m_server) << endl;
+
 		if (!send_success)
 			usleep(1000);
 
