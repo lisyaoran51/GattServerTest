@@ -346,14 +346,14 @@ void buildTomofunService(gatt_db* m_db) {
 		&tomo_command_write_cb, NULL);// server);
 	
 	printf("Data_Characteristic_UUID\n");
-	///*Data Characteristic */
-	//bt_string_to_uuid(&uuid, Data_Characteristic_UUID.c_str());
-	//
-	//gatt_db_service_add_characteristic(service, &uuid,
-	//	BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
-	//	BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE,
-	//	&tomo_data_read_cb, &tomo_data_write_cb, NULL);// server);
-	//
+	/*Data Characteristic */
+	bt_string_to_uuid(&uuid, Data_Characteristic_UUID.c_str());
+	
+	gatt_db_service_add_characteristic(service, &uuid,
+		BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
+		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE,
+		&tomo_data_read_cb, &tomo_data_write_cb, NULL);// server);
+	
 	//printf("Notify_Characteristic_UUID\n");
 	///*Notify Characteristic */
 	//bt_string_to_uuid(&uuid, Notify_Characteristic_UUID.c_str());
