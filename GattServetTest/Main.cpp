@@ -6,6 +6,33 @@
 
 // g++ Main.cpp -o test -I/home/pi/bleconfd/build/deps/src/bluez -lbluetooth /home/pi/bleconfd/build/deps/src/bluez/src/.libs/libshared-mainloop.a /home/pi/bleconfd/build/deps/src/bluez/lib/.libs/uuid.o beacon.o util.o
 
+#include <unistd.h>
+#include <thread>
+
+
+using namespace std;
+
+
+void send_notifications()
+{
+
+	usleep(1000000);
+	int count = 0;
+
+	char data[16] = { 0 };
+
+	while (1) {
+
+		bt_gatt_server_send_notification(m_server,
+			tomo_notify_handle,
+			data, 16);//notify_len)
+		data[15]++;
+		cout << "Notification count: " << count << endl;
+		usleep(500000);
+	}
+
+	
+}
 
 
 
@@ -83,7 +110,8 @@ int main() {
 
 	int m_mtu = 16;
 
-	bt_gatt_server* m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0);
+	//bt_gatt_server* m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0);
+	m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0);
 	if (!m_server)
 	{
 		cout << "failed to create gatt server" << errno;
@@ -112,7 +140,11 @@ int main() {
 
 	/* GattClient::run */
 
+	thread mThread(send_notifications);
+
 	mainloop_run();
+
+
 
 	return 0;
 }

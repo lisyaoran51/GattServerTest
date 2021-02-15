@@ -52,6 +52,9 @@ std::string const Command_Characteristic_UUID =		{ "026048ab-fafc-48e5-9db0-a9bc
 std::string const Data_Characteristic_UUID =		{ "4cc2ee25-d059-4575-a4d8-d13565d7928c" }; // Write
 std::string const Notify_Characteristic_UUID =		{ "30c95538-58f8-4db4-a62e-08af4bae4cb0" }; // Read Notify
 
+bt_gatt_server* m_server;
+uint16_t tomo_notify_handle;
+
 bool m_service_change_enabled = false;
 memory_stream       m_outgoing_queue(kRecordDelimiter);
 std::vector<char>   m_incoming_buff;
@@ -375,7 +378,6 @@ void buildTomofunService(gatt_db* m_db) {
 		NULL, NULL, NULL);
 	
 	printf("tomo_notify_handle\n");
-	uint16_t tomo_notify_handle; 
 	tomo_notify_handle = gatt_db_attribute_get_handle(tomo_notify);
 	
 	printf("GATT_CLIENT_CHARAC_CFG_UUID\n");
