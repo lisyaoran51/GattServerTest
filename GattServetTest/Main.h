@@ -268,8 +268,8 @@ void buildRpcService(gatt_db* m_db)
 	}
 
 	// blepoll
-	//bt_string_to_uuid(&uuid, kUuidRpcEPoll.c_str());
-	bt_string_to_uuid(&uuid, Notify_Characteristic_UUID.c_str());
+	bt_string_to_uuid(&uuid, kUuidRpcEPoll.c_str());
+	//bt_string_to_uuid(&uuid, Notify_Characteristic_UUID.c_str());
 	gatt_db_attribute* m_blepoll = gatt_db_service_add_characteristic(
 		service,
 		&uuid,
@@ -282,7 +282,7 @@ void buildRpcService(gatt_db* m_db)
 		nullptr,
 		nullptr);
 
-	/*
+	
 	uint16_t m_notify_handle = gatt_db_attribute_get_handle(m_blepoll);
 
 	bt_uuid16_create(&uuid, GATT_CLIENT_CHARAC_CFG_UUID);
@@ -298,7 +298,7 @@ void buildRpcService(gatt_db* m_db)
 	{
 		printf("failed to create ble poll indicator characteristic");
 	}
-	*/
+	
 
 	gatt_db_service_set_active(service, true);
 }
@@ -342,24 +342,24 @@ void buildTomofunService(gatt_db* m_db) {
 		printf("failed to add tomofun service to gatt db");
 	}
 
-	printf("Command_Characteristic_UUID\n");
-	/*Command Characteristic */
-	bt_string_to_uuid(&uuid, Command_Characteristic_UUID.c_str());
-	
-	gatt_db_service_add_characteristic(service, &uuid,
-		BT_ATT_PERM_WRITE,
-		BT_GATT_CHRC_PROP_WRITE,
-		NULL,
-		&tomo_command_write_cb, NULL);// server);
-	
-	printf("Data_Characteristic_UUID\n");
-	/*Data Characteristic */
-	bt_string_to_uuid(&uuid, Data_Characteristic_UUID.c_str());
-	
-	gatt_db_service_add_characteristic(service, &uuid,
-		BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
-		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE,
-		&tomo_data_read_cb, &tomo_data_write_cb, NULL);// server);
+	//printf("Command_Characteristic_UUID\n");
+	///*Command Characteristic */
+	//bt_string_to_uuid(&uuid, Command_Characteristic_UUID.c_str());
+	//
+	//gatt_db_service_add_characteristic(service, &uuid,
+	//	BT_ATT_PERM_WRITE,
+	//	BT_GATT_CHRC_PROP_WRITE,
+	//	NULL,
+	//	&tomo_command_write_cb, NULL);// server);
+	//
+	//printf("Data_Characteristic_UUID\n");
+	///*Data Characteristic */
+	//bt_string_to_uuid(&uuid, Data_Characteristic_UUID.c_str());
+	//
+	//gatt_db_service_add_characteristic(service, &uuid,
+	//	BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
+	//	BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE,
+	//	&tomo_data_read_cb, &tomo_data_write_cb, NULL);// server);
 	
 	printf("Notify_Characteristic_UUID\n");
 	/*Notify Characteristic */
