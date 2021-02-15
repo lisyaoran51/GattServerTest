@@ -146,9 +146,13 @@ int main() {
 	thread mThread(send_notifications);
 
 	printf("before mainloop\n");
+	printf("before mainloop\n");
+	printf("before mainloop\n");
 
 	mainloop_run();
 
+	printf("after mainloop\n");
+	printf("after mainloop\n");
 	printf("after mainloop\n");
 
 
