@@ -20,12 +20,13 @@ void send_notifications()
 	int count = 0;
 
 	char data[16] = { 0 };
+	const char *p = data;
 
 	while (1) {
 
 		bt_gatt_server_send_notification(m_server,
 			tomo_notify_handle,
-			data, 16);//notify_len)
+			p, 16);//notify_len)
 		data[15]++;
 		cout << "Notification count: " << count << endl;
 		usleep(500000);
