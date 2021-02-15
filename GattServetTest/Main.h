@@ -48,9 +48,9 @@ std::string const kUuidRpcInbox{ "510c87c8-eb90-11e8-b3dc-17292c2ecc2d" };
 std::string const kUuidRpcEPoll{ "5140f882-eb90-11e8-a835-13d2bd922d3f" };
 
 std::string const kUuidTomofun{ "77f9a069-2ff9-4ff9-93b7-4db9689f4b53" };
-std::string const Command_Characteristic_UUID = { "026048ab-fafc-48e5-9db0-a9bc46368055" };
-std::string const Data_Characteristic_UUID = { "4cc2ee25-d059-4575-a4d8-d13565d7928c" }; // Write
-std::string const Notify_Characteristic_UUID = { "30c95538-58f8-4db4-a62e-08af4bae4cb0" }; // Read Notify
+std::string const Command_Characteristic_UUID =		{ "026048ab-fafc-48e5-9db0-a9bc46368055" };
+std::string const Data_Characteristic_UUID =		{ "4cc2ee25-d059-4575-a4d8-d13565d7928c" }; // Write
+std::string const Notify_Characteristic_UUID =		{ "30c95538-58f8-4db4-a62e-08af4bae4cb0" }; // Read Notify
 
 bool m_service_change_enabled = false;
 memory_stream       m_outgoing_queue(kRecordDelimiter);
@@ -272,11 +272,14 @@ void buildRpcService(gatt_db* m_db)
 	gatt_db_attribute* m_blepoll = gatt_db_service_add_characteristic(
 		service,
 		&uuid,
-		BT_ATT_PERM_READ,
-		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
-		&GattClient_onEPollRead,
-		nullptr,
-		nullptr);
+		BT_ATT_PERM_NONE,
+		BT_GATT_CHRC_PROP_NOTIFY,
+		NULL, NULL, NULL);
+		//BT_ATT_PERM_READ,
+		//BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
+		//&GattClient_onEPollRead,
+		//nullptr,
+		//nullptr);
 	uint16_t m_notify_handle = gatt_db_attribute_get_handle(m_blepoll);
 
 	bt_uuid16_create(&uuid, GATT_CLIENT_CHARAC_CFG_UUID);
