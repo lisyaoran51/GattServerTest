@@ -321,6 +321,8 @@ static void tomo_data_write_cb(struct gatt_db_attribute *attrib,
 
 
 void buildTomofunService(gatt_db* m_db) {
+
+	bt_uuid_t uuid;
 	struct gatt_db_attribute *service;
 
 
@@ -330,7 +332,7 @@ void buildTomofunService(gatt_db* m_db) {
 	/*Command Characteristic */
 	bt_string_to_uuid(&uuid, Command_Characteristic_UUID);
 
-	body = gatt_db_service_add_characteristic(service, &uuid,
+	gatt_db_service_add_characteristic(service, &uuid,
 		BT_ATT_PERM_WRITE,
 		BT_GATT_CHRC_PROP_WRITE,
 		NULL,
@@ -339,7 +341,7 @@ void buildTomofunService(gatt_db* m_db) {
 	/*Data Characteristic */
 	bt_string_to_uuid(&uuid, Data_Characteristic_UUID);
 
-	body = gatt_db_service_add_characteristic(service, &uuid,
+	gatt_db_service_add_characteristic(service, &uuid,
 		BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
 		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE,
 		tomo_data_read_cb, tomo_data_write_cb, server);
@@ -347,7 +349,7 @@ void buildTomofunService(gatt_db* m_db) {
 	/*Notify Characteristic */
 	bt_string_to_uuid(&uuid, Notify_Characteristic_UUID);
 
-	struct gatt_db_attribute tomo_notify = gatt_db_service_add_characteristic(service, &uuid,
+	struct gatt_db_attribute *tomo_notify = gatt_db_service_add_characteristic(service, &uuid,
 		//BT_ATT_PERM_READ,
 		//BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
 		//gatt_service_changed_cb, NULL, server);
