@@ -106,7 +106,7 @@ int main() {
 	/* buildGattService */
 	buildGattService(m_db);
 
-	buildRpcService(m_db);
+	//buildRpcService(m_db);
 
 	buildTomofunService(m_db);
 
