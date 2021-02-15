@@ -29,13 +29,17 @@ void send_notifications()
 
 	while (1) {
 
-		bt_gatt_server_send_notification(m_server,
+
+		bool send_success = bt_gatt_server_send_notification(m_server,
 			tomo_notify_handle,
 			data,
 			256);//notify_len)
+
+		if (!send_success)
+			usleep(1000);
+
 		data[15]++;
 		count++;
-		//usleep(1000);
 		gettimeofday(&tv, 0);
 		
 		if (tempsec < tv.tv_sec) {
