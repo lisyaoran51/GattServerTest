@@ -36,7 +36,7 @@ void send_notifications()
 			256);//notify_len)
 
 		//cout << bt_gatt_server_get_write_queue_length(m_server) << endl;
-
+		
 		while(bt_gatt_server_get_write_queue_length(m_server) > 10)
 			usleep(1000);
 
@@ -46,7 +46,7 @@ void send_notifications()
 		
 		if (tempsec < tv.tv_sec) {
 
-			cout << "Notification data: " << count * 256 / 1024 << " byte at " << tempsec << endl;
+			cout << "Notification data: " << count * 256 / 1024 << " kb at " << tempsec << endl;
 			tempsec = tv.tv_sec;
 			data[9]++;
 		}
@@ -130,15 +130,26 @@ int main() {
 		cout << "failed to create gatt database";
 	}
 
-	int m_mtu = 256;
+	int m_mtu = 2048;
 
 	//bt_gatt_server* m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0);
 	//m_server = bt_gatt_server_new(m_db, m_att, m_mtu, 0); // 這個是bluez 5.50版用的
-	m_server = bt_gatt_server_new(m_db, m_att, m_mtu);		// 這個是bluez 5.43版用的
-	if (!m_server)
-	{
-		cout << "failed to create gatt server" << errno;
-	}
+	//m_server = bt_gatt_server_new(m_db, m_att, m_mtu);		// 這個是bluez 5.43版用的
+	//if (!m_server)
+	//{
+	//	cout << "failed to create gatt server" << errno;
+	//}
+
+	do{
+		m_server = bt_gatt_server_new(m_db, m_att, m_mtu);		// 這個是bluez 5.43版用的
+		if (!m_server)
+		{
+			cout << "failed to create gatt server" << m_mtu << " : " << errno;
+		}
+
+		m_mtu /= 2;
+
+	} while (!m_server);
 
 	if (true)
 	{
