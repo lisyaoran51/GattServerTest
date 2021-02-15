@@ -37,7 +37,7 @@ void send_notifications()
 
 		cout << bt_gatt_server_get_write_queue_length(m_server) << endl;
 
-		if (!send_success)
+		if (bt_gatt_server_get_write_queue_length(m_server) > 10)
 			usleep(1000);
 
 		data[15]++;
