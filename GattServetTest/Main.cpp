@@ -33,7 +33,7 @@ void send_notifications()
 		bool send_success = bt_gatt_server_send_notification(m_server,
 			tomo_notify_handle,
 			data,
-			256);//notify_len)
+			128);//notify_len)
 
 		//cout << bt_gatt_server_get_write_queue_length(m_server) << endl;
 		
@@ -41,14 +41,14 @@ void send_notifications()
 			usleep(1000);
 
 		data[15]++;
-		data[255]++;
+		data[127]++;
 		data[220]++;
 		count++;
 		gettimeofday(&tv, 0);
 		
 		if (tempsec < tv.tv_sec) {
 
-			cout << "Notification data: " << count * 20 / 1024 << " kb at " << tempsec << endl;
+			cout << "Notification data: " << count * 128 / 1024 << " kb at " << tempsec << endl;
 			tempsec = tv.tv_sec;
 			data[9]++;
 		}
