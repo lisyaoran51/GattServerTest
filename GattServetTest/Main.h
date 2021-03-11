@@ -373,9 +373,12 @@ void buildTomofunService(gatt_db* m_db) {
 		//BT_ATT_PERM_READ,
 		//BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
 		//gatt_service_changed_cb, NULL, server);
-		BT_ATT_PERM_NONE,
-		BT_GATT_CHRC_PROP_NOTIFY,
-		NULL, NULL, NULL);
+		//BT_ATT_PERM_NONE,
+		//BT_GATT_CHRC_PROP_NOTIFY,
+		//NULL, NULL, NULL);
+		BT_ATT_PERM_READ,
+		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
+		tomo_data_read_cb, NULL, NULL);
 	
 	printf("tomo_notify_handle\n");
 	tomo_notify_handle = gatt_db_attribute_get_handle(tomo_notify);
