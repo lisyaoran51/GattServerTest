@@ -338,7 +338,7 @@ void buildTomofunService(gatt_db* m_db) {
 
 	bt_string_to_uuid(&uuid, kUuidTomofun.c_str());
 
-	service = gatt_db_add_service(m_db, &uuid, true, 25);
+	service = gatt_db_add_service(m_db, &uuid, true, 35);
 	//server->hr_handle = gatt_db_attribute_get_handle(service);
 	
 	if (!service)
@@ -362,7 +362,7 @@ void buildTomofunService(gatt_db* m_db) {
 	
 	gatt_db_service_add_characteristic(service, &uuid,
 		BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
-		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE,
+		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE | BT_GATT_CHRC_PROP_NOTIFY | BT_GATT_CHRC_PROP_WRITE_WITHOUT_RESP,
 		&tomo_data_read_cb, &tomo_data_write_cb, NULL);// server);
 	
 	printf("Notify_Characteristic_UUID\n");
