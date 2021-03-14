@@ -37,8 +37,9 @@ void send_notifications()
 
 		//cout << bt_gatt_server_get_write_queue_length(m_server) << endl;
 		
-		while(bt_gatt_server_get_write_queue_length(m_server) > 10)
-			usleep(10000000);
+		while (bt_gatt_server_get_write_queue_length(m_server) > 10)
+			break;
+			//usleep(10000000);
 
 		data[15]++;
 		data[127]++;
