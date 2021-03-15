@@ -18,6 +18,12 @@
     <ClCompile Include="Main.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="beacon.cc">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cc">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -26,5 +32,19 @@
     <ClInclude Include="CommandToString.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="memory_stream.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="beacon.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="build.sh">
+      <Filter>資源檔</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -115,11 +115,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="beacon.cc" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="util.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="beacon.h" />
     <ClInclude Include="CommandToString.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="memory_stream.h" />
+    <ClInclude Include="util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="build.sh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
