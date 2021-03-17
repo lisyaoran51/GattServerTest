@@ -50,6 +50,9 @@ void send_notifications()
 		count++;
 		gettimeofday(&tv, 0);
 		
+		if (count * 128 / 1024 > 512)
+			return;
+
 		if (tempsec < tv.tv_sec) {
 
 			cout << "Notification data: " << count * 128 / 1024 << " kb at " << tempsec << endl;
