@@ -377,8 +377,8 @@ void buildTomofunService(gatt_db* m_db) {
 		//BT_GATT_CHRC_PROP_NOTIFY,
 		//NULL, NULL, NULL);
 		BT_ATT_PERM_READ,
-		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_NOTIFY,
-		tomo_data_read_cb, NULL, NULL);
+		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE | BT_GATT_CHRC_PROP_NOTIFY,
+		&tomo_data_read_cb, &tomo_data_write_cb, NULL);
 	
 	printf("tomo_notify_handle\n");
 	tomo_notify_handle = gatt_db_attribute_get_handle(tomo_notify);
