@@ -17,7 +17,7 @@ using namespace std;
 void send_notifications()
 {
 
-	usleep(10000000);
+	//usleep(10000000);
 	int count = 0;
 
 	uint8_t data[256] = { 0 };
