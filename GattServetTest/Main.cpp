@@ -183,7 +183,7 @@ int main() {
 
 	/* GattClient::run */
 
-	thread mThread(send_notifications);
+	//thread mThread(send_notifications);
 
 	printf("before mainloop\n");
 	printf("before mainloop\n");
