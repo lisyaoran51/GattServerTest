@@ -1,10 +1,12 @@
 #include "Main.h"
 
 // g++ Main.cpp -o test -I/home/pi/bleconfd/build/deps/src/bluez -lbluetooth /home/pi/bleconfd/build/deps/src/bluez/src/.libs/libshared-mainloop.a /home/pi/bleconfd/build/deps/src/bluez/lib/.libs/uuid.o
-// g++ beacon.cc -c -lbluetooth
+// g++ beacon.cc -c -I/home/pi/bleconfd/build/deps/src/bluez 
 // g++ util.cc -c
 
-// g++ Main.cpp -o test -I/home/pi/bleconfd/build/deps/src/bluez -lbluetooth /home/pi/bleconfd/build/deps/src/bluez/src/.libs/libshared-mainloop.a /home/pi/bleconfd/build/deps/src/bluez/lib/.libs/uuid.o beacon.o util.o -pthread
+// g++ Main.cpp -o test -I/home/pi/bleconfd/build/deps/src/bluez /home/pi/bleconfd/build/deps/src/bluez/src/.libs/libshared-mainloop.a /home/pi/bleconfd/build/deps/src/bluez/lib/.libs/uuid.o /home/pi/bleconfd/build/deps/src/bluez/lib/.libs/bluetooth.o /home/pi/bleconfd/build/deps/src/bluez/lib/.libs/hci.o beacon.o util.o -pthread
+
+// g++ Main.cpp -o test -I/home/pi/bleconfd/build/deps/src/bluez -L/home/pi/bleconfd/build/deps/src/bluez/src/.libs/ -L/home/pi/bleconfd/build/deps/src/bluez/lib/.libs/ -lshared-mainloop -lbluetooth-internal beacon.o util.o -pthread
 
 #include <unistd.h>
 #include <thread>
@@ -37,7 +39,7 @@ void send_notifications()
 
 		//cout << bt_gatt_server_get_write_queue_length(m_server) << endl;
 		
-		while (bt_gatt_server_get_write_queue_length(m_server) > 10)
+		//while (bt_gatt_server_get_write_queue_length(m_server) > 10)
 			//return;
 			usleep(10000);
 
