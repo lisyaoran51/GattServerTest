@@ -6,7 +6,7 @@
 
 // g++ Main.cpp -o test -I/home/pi/bleconfd/build/deps/src/bluez /home/pi/bleconfd/build/deps/src/bluez/src/.libs/libshared-mainloop.a /home/pi/bleconfd/build/deps/src/bluez/lib/.libs/uuid.o /home/pi/bleconfd/build/deps/src/bluez/lib/.libs/bluetooth.o /home/pi/bleconfd/build/deps/src/bluez/lib/.libs/hci.o beacon.o util.o -pthread
 
-// g++ Main.cpp -o test -I/home/pi/bleconfd/build/deps/src/bluez -L/home/pi/bleconfd/build/deps/src/bluez/src/.libs/ -L/home/pi/bleconfd/build/deps/src/bluez/lib/.libs/ -lshared-mainloop -lbluetooth-internal beacon.o util.o -pthread
+// g++ Main.cpp -o test -I/home/pi/bleconfd/build/deps/src/bluez -L/bleconfd/build/deps/src/bluez/lib -L/home/pi/bleconfd/build/deps/src/bluez/src/.libs/ -L/home/pi/bleconfd/build/deps/src/bluez/lib/.libs/ -lshared-mainloop -lbluetooth-internal beacon.o util.o -pthread
 
 #include <unistd.h>
 #include <thread>
