@@ -313,6 +313,7 @@ void tomo_command_write_cb(struct gatt_db_attribute *attrib,
 	uint8_t opcode, struct bt_att *att,
 	void *user_data) {
 	printf("tomo_command_write_cb\n");
+	gatt_db_attribute_write_result(attrib, id, 0);
 }
 
 void tomo_data_read_cb(struct gatt_db_attribute *attrib,
