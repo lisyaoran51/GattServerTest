@@ -260,7 +260,7 @@ void buildRpcService(gatt_db* m_db)
 		service,
 		&uuid,
 		BT_ATT_PERM_READ | BT_ATT_PERM_WRITE,
-		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE,
+		BT_GATT_CHRC_PROP_READ | BT_GATT_CHRC_PROP_WRITE | BT_GATT_CHRC_PROP_WRITE_WITHOUT_RESP,
 		&GattClient_onDataChannelOut,
 		&GattClient_onDataChannelIn,
 		nullptr);
